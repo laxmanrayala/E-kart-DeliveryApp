@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import com.projectla.deliveryapp.Entity.Product;
 import com.projectla.deliveryapp.Service.ProductService;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import java.util.List;
 
 @RestController
@@ -17,7 +19,9 @@ public class ProductController {
         this.service = service;
     }
 
+    // 🔹 ADD PRODUCT (ADMIN ONLY)
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Product addProduct(
             @PathVariable Long storeId,
             @RequestBody Product product
@@ -25,9 +29,9 @@ public class ProductController {
         return service.addProduct(storeId, product);
     }
 
+    // 🔹 GET PRODUCTS (PUBLIC)
     @GetMapping
     public List<Product> getProducts(@PathVariable Long storeId) {
         return service.getProductsByStore(storeId);
     }
 }
-

@@ -2,12 +2,13 @@ package com.projectla.deliveryapp.Controller;
 
 import com.projectla.deliveryapp.Dto.AddToCartRequest;
 import com.projectla.deliveryapp.Dto.CartResponse;
-import com.projectla.deliveryapp.Entity.Cart;
 import com.projectla.deliveryapp.Service.CartService;
+import com.projectla.deliveryapp.security.SecurityUtil;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users/{userId}/cart")
+@RequestMapping("/cart")
 public class CartController {
 
     private final CartService cartService;
@@ -17,43 +18,54 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public CartResponse addToCart(@PathVariable Long userId,
-                            @RequestBody AddToCartRequest request) {
+    public CartResponse addToCart(@RequestBody AddToCartRequest request) {
 
-        return cartService.addToCart(userId, request.getProductId(), request.getQuantity());
+        Long userId = SecurityUtil.getCurrentUserId();
+
+        return cartService.addToCart(
+                userId,
+                request.getProductId(),
+                request.getQuantity()
+        );
+    }
+
+    @GetMapping
+    public CartResponse getCart() {
+
+        Long userId = SecurityUtil.getCurrentUserId();
+
+        return cartService.getCart(userId);
+    }
+
+    @PatchMapping("/reduce")
+    public CartResponse reduceQuantity(@RequestBody AddToCartRequest request) {
+
+        Long userId = SecurityUtil.getCurrentUserId();
+
+        return cartService.reduceQuantity(
+                userId,
+                request.getProductId(),
+                request.getQuantity()
+        );
     }
 
     @DeleteMapping("/remove/{productId}")
-    public CartResponse removeItem(@PathVariable Long userId, @PathVariable Long productId) {
+    public CartResponse removeItem(@PathVariable Long productId) {
 
-    return cartService.removeItem(userId, productId);
+        Long userId = SecurityUtil.getCurrentUserId();
+
+        return cartService.removeItem(userId, productId);
     }
 
     @DeleteMapping("/clear")
-    public CartResponse clearCart(@PathVariable Long userId) {
-        
+    public CartResponse clearCart() {
+
+        Long userId = SecurityUtil.getCurrentUserId();
+
         return cartService.clearCart(userId);
-}
+    }
 
-@GetMapping
-public CartResponse getCart(@PathVariable Long userId) {
-    return cartService.getCart(userId);
-}
 
-@PatchMapping("/reduce")
-public CartResponse reduceQuantity(@PathVariable Long userId,
-                                   @RequestBody AddToCartRequest request) {
-
-    return cartService.reduceQuantity(
-            userId,
-            request.getProductId(),
-            request.getQuantity()
-    );
-}
-
-@GetMapping("/debug")
-public Cart debug(@PathVariable Long userId) {
-    return cartService.debugCart(userId);
-}
+ 
 
 }

@@ -1,5 +1,8 @@
 package com.projectla.deliveryapp.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projectla.deliveryapp.Enum.Role;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,7 +11,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users") // avoid reserved keyword issue
+@Table(name = "users") //avoid reserve keyword issue
 public class User {
 
     @Id
@@ -17,6 +20,12 @@ public class User {
 
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String phoneNumber;
+    
+    @JsonIgnore
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+     private Role role;
 }

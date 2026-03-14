@@ -16,6 +16,7 @@ public class Store {
 
     private String name;
     private String location;
+    private String address;
 }
 
 

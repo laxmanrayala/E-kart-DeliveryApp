@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.projectla.deliveryapp.Entity.Store;
 import com.projectla.deliveryapp.Service.StoreService;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/stores")
 public class StoreController {
@@ -17,20 +19,22 @@ public class StoreController {
         this.service = service;
     }
 
+    // 🔹 CREATE STORE (ADMIN ONLY)
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Store create(@RequestBody Store store) {
         return service.create(store);
     }
 
+    // 🔹 GET STORE BY ID (PUBLIC)
     @GetMapping("{id}")
     public Store getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
-     @GetMapping
+    // 🔹 GET ALL STORES (PUBLIC)
+    @GetMapping
     public List<Store> getAllStores() {
         return service.getAllStores();
     }
-
 }
-
