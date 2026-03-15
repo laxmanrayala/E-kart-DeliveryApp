@@ -6,6 +6,7 @@ import com.projectla.deliveryapp.Repository.OrderRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,9 +34,14 @@ public class AdminOrderService {
         return orderRepository.save(order);
     }
 
-
     public Page<Order> getOrders(int page, int size) {
 
-    return orderRepository.findAll(PageRequest.of(page, size));
-   }
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        return orderRepository.findAll(pageRequest);
+    }
 }

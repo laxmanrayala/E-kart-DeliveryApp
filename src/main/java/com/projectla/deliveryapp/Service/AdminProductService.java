@@ -39,6 +39,8 @@ public class AdminProductService {
         product.setStock(request.getStock());
         product.setImageUrl(request.getImageUrl());
         product.setStore(store);
+        product.setCategory(request.getCategory());
+
 
         return productRepository.save(product);
     }
@@ -53,6 +55,8 @@ public class AdminProductService {
         product.setPrice(request.getPrice());
         product.setStock(request.getStock());
         product.setImageUrl(request.getImageUrl());
+        product.setCategory(request.getCategory());
+
 
         return productRepository.save(product);
     }
@@ -110,4 +114,5 @@ public class AdminProductService {
             PageRequest.of(page, size, Sort.by("id"))
     );
 }
+
 }

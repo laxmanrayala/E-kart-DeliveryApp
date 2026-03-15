@@ -44,15 +44,13 @@ public class AdminProductController {
         return adminProductService.updateStock(id, request.getChange());
     }
 
-@GetMapping
-public Page<Product> getProducts(
-
-    @RequestParam Long storeId,
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "10") int size
-) {
+    @GetMapping
+    public Page<Product> getProducts(
+        @RequestParam Long storeId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size) {
 
     return adminProductService.getProductsByStore(storeId, page, size);
+  }
 
-}
 }

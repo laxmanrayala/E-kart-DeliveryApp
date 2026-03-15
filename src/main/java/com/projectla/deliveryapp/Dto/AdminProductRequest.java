@@ -11,4 +11,5 @@ public class AdminProductRequest {
     private Long storeId;
     private Integer stock;
     private String imageUrl;
+    private String category;
 }

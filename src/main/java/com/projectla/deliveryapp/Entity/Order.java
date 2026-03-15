@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.projectla.deliveryapp.Enum.OrderStatus;
 
@@ -30,6 +31,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"orders"})
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

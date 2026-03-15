@@ -22,8 +22,10 @@ public class Product {
     @Column(nullable = false)
     private Integer stock = 0;
 
-
     @ManyToOne
     @JoinColumn(name = "store_id")
     private Store store;
+
+    @Column(nullable = false)
+    private String category;
 }
